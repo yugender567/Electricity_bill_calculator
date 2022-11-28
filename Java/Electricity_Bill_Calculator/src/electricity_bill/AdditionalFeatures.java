@@ -15,7 +15,7 @@ public class AdditionalFeatures{
 		
 		Scanner in = new Scanner(System.in);
 		
-		System.out.print("Enter Name:");
+		System.out.print("Enter New Name:");
 		String name = in.nextLine();
 
 		System.out.print("Enter Consumer ID:");
@@ -62,11 +62,11 @@ public class AdditionalFeatures{
 		System.out.print("Enter Consumer ID:");
 		int id = in.nextInt();
 		Connection con=DatabaseConnectivity.getConnection();
-		String query = "SELECT * FROM all_consumer_bill WHERE id=?";
+		String query = "SELECT * FROM consumer inner join bill WHERE id=?";
 		PreparedStatement pst = con.prepareStatement(query);
 		pst.setInt(1,id);
 	      
-	      ResultSet rs = pst.executeQuery(query);
+	    ResultSet rs = pst.executeQuery();
 	      
 	      
 	      while (rs.next())
@@ -119,7 +119,7 @@ public class AdditionalFeatures{
 
 		pst.setInt(1,id);
 		pst.setInt(2,year);
-	    ResultSet rs = pst.executeQuery(query);
+	    ResultSet rs = pst.executeQuery();
 	      
 	      
 	      while (rs.next())

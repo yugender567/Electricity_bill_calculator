@@ -7,16 +7,11 @@ import java.util.Scanner;
 
 public class Menu 
 {
-	public static boolean check(HashMap<String, String> adminMap, String username, String password)
-	{
-		if(adminMap.get(username).equals(password)) 
-			return true;
-
-		return false;
-	}
 	
-	public static boolean checkAdmin(HashMap<String, String> adminMap) 
+	public static boolean checkAdmin() 
 	{
+		HashMap<String, String> adminMap = new HashMap<String, String>();
+		adminMap.put("Team3", "1234");
 		Scanner scan=new Scanner(System.in);
 		System.out.println("Please Enter Your Admin UserName");
 		String username=scan.next();
@@ -37,8 +32,7 @@ public class Menu
 	public static void menu() throws SQLException, ClassNotFoundException, IOException
 	{
 		Scanner scan=new Scanner(System.in);
-		HashMap<String, String> adminMap = new HashMap<String, String>();
-		adminMap.put("Team3", "1234");
+
 
 		int choice = 0;
 		do 
@@ -74,23 +68,24 @@ public class Menu
 				break;
 			case 3: 
 			{
-				if(checkAdmin(adminMap))
+				if(checkAdmin())
 					Reports.AllConsumersBill();
 			}
 				
 				break;
 			case 4: 
 			{
-				if(checkAdmin(adminMap)) 
+				if(checkAdmin()) 
 						Reports.consumerBillByCity();
 				break;
 			}
 			case 5: 
 			{
-				if(checkAdmin(adminMap)) {
+				if(checkAdmin()) {
 						Reports.consumerBillByYear();
 					}
-				}
+			}
+			break;
 				
 			case 6:
 				AdditionalFeatures.changeName();

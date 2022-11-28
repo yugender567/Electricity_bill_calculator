@@ -8,6 +8,6 @@ public class DatabaseConnectivity
 	{
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		String url = "jdbc:mysql://localhost:3306/project";
-		return DriverManager.getConnection(url, "root", "password");
+		return DriverManager.getConnection(url, "root", "Hackerrank@18");
 	}
 }
