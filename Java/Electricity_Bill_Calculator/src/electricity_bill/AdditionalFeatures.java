@@ -1,10 +1,8 @@
 package electricity_bill;
 import java.sql.Statement;
-
-import features.MyConnection;
-
+import java.util.HashMap;
+import java.util.Scanner;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,72 +10,84 @@ import java.sql.SQLException;
 
 public class AdditionalFeatures{
 	
-	public void changeName(String name, int x) throws ClassNotFoundException, SQLException{
-		Connection con=MyConnection.getConnection();
-		String sqlUpdate1="UPDATE all_consumer_bill SET Name=? WHERE id=?";
+	public static void changeName() throws ClassNotFoundException, SQLException{
+		Connection con=DatabaseConnectivity.getConnection();
+		
+		Scanner in = new Scanner(System.in);
+		
+		System.out.print("Enter Name:");
+		String name = in.nextLine();
+
+		System.out.print("Enter Consumer ID:");
+		int id = in.nextInt();
+		
 		String sqlUpdate2="UPDATE consumer SET Name=? WHERE id=?";
-		PreparedStatement pst1 = con.prepareStatement(sqlUpdate1);
 		PreparedStatement pst2 = con.prepareStatement(sqlUpdate2);
-		String id=""+x;
-		pst1.setString(1,name);
-		pst1.setString(2,id);
-		pst1.executeUpdate();
-		pst1.clearParameters();
+
+
 		
 		pst2.setString(1,name);
-		pst2.setString(2,id);
+		pst2.setInt(2,id);
 		pst2.executeUpdate();
 		pst2.clearParameters();
 		con.close();
 	}
-	public void changeAddress(String city,String area, int x) throws ClassNotFoundException, SQLException{
-		Connection con=MyConnection.getConnection();
+	
+	public static void changeAddress() throws ClassNotFoundException, SQLException{
+		Connection con=DatabaseConnectivity.getConnection();
+		Scanner in = new Scanner(System.in);
+		
+		System.out.print("Enter City:");
+		String city = in.nextLine();
+		System.out.print("Enter Area:");
+		String area = in.nextLine();
+		System.out.print("Enter Consumer ID:");
+		int id = in.nextInt();
+		
 		String sqlUpdate="UPDATE consumer SET CITY=?, AREA=? WHERE id=?";
-		String sqlUpdate2="UPDATE all_consumer_bill SET Name=? WHERE id=?";
 		PreparedStatement pst = con.prepareStatement(sqlUpdate);
-		PreparedStatement pst2 = con.prepareStatement(sqlUpdate2);
-		String id=""+x;
+
 		pst.setString(1,city);
 		pst.setString(2,area);
-		pst.setString(3,id);
+		pst.setInt(3,id);
 		pst.executeUpdate();
 		pst.clearParameters();
-		
-		pst2.setString(1,city);
-		pst2.setString(2,area);
-		pst2.setString(3,id);
-		pst2.executeUpdate();
-		pst2.clearParameters();
+
 		con.close();
 	}
-	public void getBillforUser(int id) throws ClassNotFoundException, SQLException{
-		Connection con=MyConnection.getConnection();
+	
+	public static void getBillforUser() throws ClassNotFoundException, SQLException
+	{
+		Scanner in = new Scanner(System.in);
+		System.out.print("Enter Consumer ID:");
+		int id = in.nextInt();
+		Connection con=DatabaseConnectivity.getConnection();
 		String query = "SELECT * FROM all_consumer_bill WHERE id=?";
 		PreparedStatement pst = con.prepareStatement(query);
-		String x=""+id;
-		pst.setString(1,x);
+		pst.setInt(1,id);
 	      
 	      ResultSet rs = pst.executeQuery(query);
 	      
 	      
 	      while (rs.next())
 	      {
-	        int id = rs.getInt("id");
+	        int consumer_id = rs.getInt("id");
 	        String NAME = rs.getString("NAME");
 	        String CITY = rs.getString("CITY");
 	        String AREA = rs.getString("AREA");
 	        String TYPE_NAME = rs.getString("TYPE_NAME");
-	        int  BILL_ID = rs.getint("BILL_ID");
-	        int  YEAR = rs.getint("YEAR");
-	        int  MONTH = rs.getint("MONTH");
-	        double   UNITS_CONSUMED = rs.getint("UNITS_CONSUMED");
-	        int  CONSUMER_ID= rs.getint("CONSUMER_ID");
+	        int  BILL_ID = rs.getInt("BILL_ID");
+	        int  YEAR = rs.getInt("YEAR");
+	        int  MONTH = rs.getInt("MONTH");
+	        double   UNITS_CONSUMED = rs.getInt("UNITS_CONSUMED");
+	        int  CONSUMER_ID= rs.getInt("CONSUMER_ID");
 	        
-	        System.out.format("%s, %s, %s, %s, %s, %s\n", id, NAME, CITY, AREA, TYPE_NAME,BILL_ID,YEAR,MONTH,UNITS_CONSUMED,CONSUMER_ID);
+	        System.out.format("%s, %s, %s, %s, %s, %s\n", consumer_id, NAME, CITY, AREA, TYPE_NAME,BILL_ID,YEAR,MONTH,UNITS_CONSUMED,CONSUMER_ID);
 	      }
 	}
-	public void getRates() throws ClassNotFoundException, SQLException{
-		Connection con=MyConnection.getConnection();
+	
+	public static void getRates() throws ClassNotFoundException, SQLException{
+		Connection con=DatabaseConnectivity.getConnection();
 		String query = "SELECT * FROM RATES";
 		Statement st = con.prepareStatement(query);
 	      
@@ -92,32 +102,43 @@ public class AdditionalFeatures{
 	        System.out.format("%s, %s\n", TYPE_NAME,price);
 	      }
 	}
-	public void getBillForYear(int id, int year) throws ClassNotFoundException, SQLException{
-		Connection con=MyConnection.getConnection();
+	
+	public static void getBillForYear() throws ClassNotFoundException, SQLException{
+		Connection con=DatabaseConnectivity.getConnection();
+		
+		Scanner in = new Scanner(System.in);
+
+		System.out.print("Enter Consumer ID:");
+		int id = in.nextInt();
+		
+		System.out.print("Enter year:");
+		int year = in.nextInt();
+		
 		String query = "SELECT * FROM all_consumer_bill WHERE id=? AND YEAR=?";
 		PreparedStatement pst = con.prepareStatement(query);
-		String x=""+id;
-		String y=""+year;
-		pst.setString(1,x);
-		pst.setString(2,y);
+
+		pst.setInt(1,id);
+		pst.setInt(2,year);
 	    ResultSet rs = pst.executeQuery(query);
 	      
 	      
 	      while (rs.next())
 	      {
-	        int id = rs.getInt("id");
+	        int consumer_id = rs.getInt("id");
 	        String NAME = rs.getString("NAME");
 	        String CITY = rs.getString("CITY");
 	        String AREA = rs.getString("AREA");
 	        String TYPE_NAME = rs.getString("TYPE_NAME");
-	        int  BILL_ID = rs.getint("BILL_ID");
-	        int  YEAR = rs.getint("YEAR");
-	        int  MONTH = rs.getint("MONTH");
-	        double   UNITS_CONSUMED = rs.getint("UNITS_CONSUMED");
-	        int  CONSUMER_ID= rs.getint("CONSUMER_ID");
+	        int  BILL_ID = rs.getInt("BILL_ID");
+	        int  YEAR = rs.getInt("YEAR");
+	        int  MONTH = rs.getInt("MONTH");
+	        double   UNITS_CONSUMED = rs.getInt("UNITS_CONSUMED");
+	        int  CONSUMER_ID= rs.getInt("CONSUMER_ID");
 	        
-	        System.out.format("%s, %s, %s, %s, %s, %s\n", id, NAME, CITY, AREA, TYPE_NAME,BILL_ID,YEAR,MONTH,UNITS_CONSUMED,CONSUMER_ID);
+	        System.out.format("%s, %s, %s, %s, %s, %s\n", consumer_id, NAME, CITY, AREA, TYPE_NAME,BILL_ID,YEAR,MONTH,UNITS_CONSUMED,CONSUMER_ID);
 	      }
 	}
+	
+	
 	
 }

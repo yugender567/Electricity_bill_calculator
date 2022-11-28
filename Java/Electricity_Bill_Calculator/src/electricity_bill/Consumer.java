@@ -87,8 +87,7 @@ public class Consumer
     	callable.executeUpdate();
     	con.close();
     }
-    
-    //TODO: Get plan_type from consumer id
+
     public static double getRate(int consumerId) throws ClassNotFoundException, SQLException
     {
     	Connection con = DatabaseConnectivity.getConnection();

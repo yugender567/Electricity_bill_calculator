@@ -6,9 +6,22 @@ import java.util.stream.Collectors;
 
 public class Reports 
 {
+	public static void AllConsumersBill() throws ClassNotFoundException, SQLException
+	{
+		System.out.println("All Consumer Report");
+		Connection con = DatabaseConnectivity.getConnection();
+		Statement st = con.createStatement();
+		ResultSet rs = st.executeQuery("select c.id,c.name,c.city,c.area,c.type_name,b.bill_id, b.year,b.month,b.units_consumed,b.total_bill from consumer c join bill b on c.id = b.consumer_id order by c.id");
+		while(rs.next()) {
+			System.out.println(rs.getInt(1) + " "+ rs.getString(2) + " "+ rs.getString(3)+" "+ rs.getString(4)+ " "+rs.getString(5)+" "+rs.getInt(6)+" "+rs.getInt(7)+" "+rs.getInt(8)+" "+rs.getDouble(9)+" "+rs.getDouble(10));
+		}
+		System.out.println();
+		con.close();
+	}
 
 	public static void consumerBillByCity() throws ClassNotFoundException, SQLException
 	{
+		System.out.println("Consumer Report by City and Area");
 		Connection con = DatabaseConnectivity.getConnection();
 		PreparedStatement pst = con.prepareStatement("select * from consumer");
 		Scanner in = new Scanner(System.in);
@@ -45,6 +58,7 @@ public class Reports
 	
 	public static void consumerBillByYear() throws ClassNotFoundException, SQLException
 	{
+		System.out.println("Consumer Report by Year and Month");
 		Connection con = DatabaseConnectivity.getConnection();
 		PreparedStatement pst = con.prepareStatement("select * from bill");
 		Scanner in = new Scanner(System.in);
