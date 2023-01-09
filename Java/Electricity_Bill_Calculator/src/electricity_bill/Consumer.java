@@ -58,7 +58,7 @@ public class Consumer
     {
         this.type = type;
     }
-
+//consumer registration
     void register() throws IOException 
     {
         InputStreamReader isr = new InputStreamReader(System.in);
